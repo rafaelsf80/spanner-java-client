@@ -36,17 +36,17 @@ Below is a code snippet to make authentication using Default Credentials:
 
 ```
 
-And below using a service acount:
+And below using a Service Account:
 ```java
 	String path = "File_Path";
-    SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
-    SpannerOptions options = optionsBuilder.build();
-    optionsBuilder.setProjectId("projectId");
+	SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
+	SpannerOptions options = optionsBuilder.build();
+	optionsBuilder.setProjectId("projectId");
 ```
 
-See the
+Refer also to the
 [Authentication](https://github.com/GoogleCloudPlatform/google-cloud-java#authentication)
-section in the base directory's README.
+section for the Google Cloud Java client library.
 
 
 ## License

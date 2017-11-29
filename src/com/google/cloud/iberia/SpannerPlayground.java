@@ -28,9 +28,9 @@ import com.google.cloud.spanner.TransactionContext;
 import com.google.cloud.spanner.TransactionRunner.TransactionCallable;
 
 public class SpannerPlayground {
-	
+
 	public static void main(String[] args) throws Exception {
-		
+
 		// Authentication with Default Credentials
 		try {
 			GoogleCredentials.getApplicationDefault();	
@@ -39,12 +39,12 @@ public class SpannerPlayground {
 			return;
 		}
 		SpannerOptions options = SpannerOptions.newBuilder().build();
-		
+
 		// Authentication with a service account
-//		String path = "File_Path";
-//      SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
-//		SpannerOptions options = optionsBuilder.build();
-//      optionsBuilder.setProjectId("projectId");
+		//		String path = "File_Path";
+		//      SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
+		//		SpannerOptions options = optionsBuilder.build();
+		//      optionsBuilder.setProjectId("projectId");
 
 		Spanner spanner = options.getService();
 
@@ -93,9 +93,9 @@ public class SpannerPlayground {
 						List<Mutation> mutations = new ArrayList<>();
 						while (resultSet.next()) {
 							mutations.add(Mutation.newUpdateBuilder("Account")
-								.set("AccountId").to(resultSet.getString("AccountId"))
-								.set("Name").to("SpannerGuru")
-								.build());
+									.set("AccountId").to(resultSet.getString("AccountId"))
+									.set("Name").to("SpannerGuru")
+									.build());
 						}
 						txn.buffer(mutations);
 						return null;
@@ -128,7 +128,7 @@ public class SpannerPlayground {
 
 	public void createDB(Spanner spanner, String projectId, String instanceId, String databaseId) {
 		DatabaseAdminClient adminClient = spanner.getDatabaseAdminClient();
-		
+
 		adminClient.createDatabase(instanceId, databaseId, 
 				Arrays.asList(
 						"CREATE TABLE Account (\n"
