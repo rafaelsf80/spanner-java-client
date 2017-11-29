@@ -1,5 +1,6 @@
 package com.google.cloud.iberia;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -29,15 +30,24 @@ import com.google.cloud.spanner.TransactionRunner.TransactionCallable;
 public class SpannerPlayground {
 	
 	public static void main(String[] args) throws Exception {
+		
+		// Authentication with Default Credentials
 		try {
-			GoogleCredentials.getApplicationDefault();
+			GoogleCredentials.getApplicationDefault();	
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
-
 		SpannerOptions options = SpannerOptions.newBuilder().build();
+		
+		// Authentication with a service account
+//		String path = "File_Path";
+//      SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
+//		SpannerOptions options = optionsBuilder.build();
+//      optionsBuilder.setProjectId("projectId");
+
 		Spanner spanner = options.getService();
+
 		String instanceId = "spanner-demo-rafa";
 		String databaseId = "demo";
 
