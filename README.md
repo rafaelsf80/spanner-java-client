@@ -51,7 +51,7 @@ section for the Google Cloud Java client library.
 
 ## Creation of a Spanner client
 
-The following code creates a **Spanner client** that will access to the database <DatabaseId> at my Spanner instance named <InstanceId> on my project <ProjectId>:
+The following code creates a **Spanner client** that will access to the database *DatabaseId* at my Spanner instance named *InstanceId* on my project *ProjectId*:
 
 ```java
     SpannerOptions options = SpannerOptions.newBuilder().build();
