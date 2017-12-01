@@ -28,7 +28,7 @@ interact with Cloud Spanner using this Client Library.
 
 ## Authentication
 
-Below is a code snippet to make authentication using Default Credentials:
+Below is a code snippet to make authentication using **Default Credentials**:
 
 ```java
 	GoogleCredentials.getApplicationDefault();	
@@ -36,7 +36,7 @@ Below is a code snippet to make authentication using Default Credentials:
 
 ```
 
-And below using a Service Account:
+And below using a **Service Account**:
 ```java
 	String path = "File_Path";
 	SpannerOptions.Builder optionsBuilder = SpannerOptions.newBuilder().setCredentials(GoogleCredentials.fromStream(new FileInputStream(path)));
@@ -48,9 +48,22 @@ Refer also to the
 [Authentication](https://github.com/GoogleCloudPlatform/google-cloud-java#authentication)
 section for the Google Cloud Java client library.
 
+
+## Creation of a Spanner client
+
+The following code creates a **Spanner client** that will access to the database <DatabaseId> at my Spanner instance named <InstanceId> on my project <ProjectId>:
+
+```java
+    SpannerOptions options = SpannerOptions.newBuilder().build();
+    DatabaseClient dbClient = spanner.getDatabaseClient(DatabaseId.of(
+          "<ProjectId>, "<InstanceId>", "<DatabaseId>");
+  
+```
+
+
 ## Transactions
 
-Spanner supports two types of read-only transactions: strong and stale. A stale read is read at a timestamp in the past. If your application is latency sensitive but tolerant of stale data, then stale reads can provide performance benefits. Read-only transactions don't write, they don't hold locks and they don't block other transactions. Read-only transactions observe a consistent prefix of the transaction commit history, so your application always gets consistent data. Below a read-only transaction with 15 sec stale:
+Spanner supports two types of **read-only transactions**: strong and stale. A **stale read** is read at a timestamp in the past. If your application is latency sensitive but tolerant of stale data, then stale reads can provide performance benefits. Read-only transactions don't write, they don't hold locks and they don't block other transactions. Read-only transactions observe a consistent prefix of the transaction commit history, so your application always gets consistent data. Below a read-only transaction with 15 sec stale:
 
 ```java
 	ReadOnlyTransaction txn = dbClient.singleUseReadOnlyTransaction(TimestampBound.ofMaxStaleness(15, TimeUnit.SECONDS));		
@@ -62,7 +75,7 @@ Spanner supports two types of read-only transactions: strong and stale. A stale 
 
 ```
 
-In addition to read-only transactions, Cloud Spanner offers locking read-write transactions. This type of transaction is the only transaction type that supports writing data into Cloud Spanner. These transactions rely on pessimistic locking and, if necessary, two-phase commit. Locking read-write transactions may abort, requiring the application to retry:
+In addition to read-only transactions, Cloud Spanner offers locking **read-write transactions**. This type of transaction is the only transaction type that supports writing data into Cloud Spanner. These transactions rely on pessimistic locking and, if necessary, two-phase commit. Locking read-write transactions may abort, requiring the application to retry:
 
 ```java
 	dbClient.readWriteTransaction().run(
