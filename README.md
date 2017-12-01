@@ -48,6 +48,48 @@ Refer also to the
 [Authentication](https://github.com/GoogleCloudPlatform/google-cloud-java#authentication)
 section for the Google Cloud Java client library.
 
+## Transactions
+
+Spanner supports two types of read-only transactions: strong and stale. A stale read is read at a timestamp in the past. If your application is latency sensitive but tolerant of stale data, then stale reads can provide performance benefits. Read-only transactions don't write, they don't hold locks and they don't block other transactions. Read-only transactions observe a consistent prefix of the transaction commit history, so your application always gets consistent data. Below a read-only transaction with 15 sec stale:
+
+```java
+	ReadOnlyTransaction txn = dbClient.singleUseReadOnlyTransaction(TimestampBound.ofMaxStaleness(15, TimeUnit.SECONDS));		
+	ResultSet resultSet = txn.executeQuery(
+		Statement.newBuilder(
+			"SELECT a.Name, a.Email FROM Account a, Address ad " +
+			"WHERE a.AccountId = ad.AccountId AND ad.CountryCode = @country LIMIT 10")
+		.bind("country").to("PT").build());
+
+```
+
+In addition to read-only transactions, Cloud Spanner offers locking read-write transactions. This type of transaction is the only transaction type that supports writing data into Cloud Spanner. These transactions rely on pessimistic locking and, if necessary, two-phase commit. Locking read-write transactions may abort, requiring the application to retry:
+
+```java
+	dbClient.readWriteTransaction().run(
+		new TransactionCallable<Void>() {
+			@Nullable
+			@Override
+			public Void run(TransactionContext txn) throws Exception {
+				ResultSet resultSet = txn.executeQuery(
+						Statement.newBuilder(
+								"SELECT * FROM Account WHERE email=@email")
+						.bind("email").to("myname@mydomain.com")
+						.build());
+				List<Mutation> mutations = new ArrayList<>();
+				while (resultSet.next()) {
+					mutations.add(Mutation.newUpdateBuilder("Account")
+							.set("AccountId").to(resultSet.getString("AccountId"))
+							.set("Name").to("SpannerGuru")
+							.build());
+				}
+				txn.buffer(mutations);
+				return null;
+			}
+		});
+```
+
+
+
 
 ## License
 

@@ -53,9 +53,9 @@ public class SpannerPlayground {
 
 		try {
 			SpannerPlayground spannerPlayground = new SpannerPlayground();
-			//spannerPlayground.createDB(spanner, options.getProjectId(), instanceId, databaseId);
-			//spannerPlayground.insertData(spanner, options.getProjectId(), instanceId, databaseId);
-			spannerPlayground.readOnlyFunc(spanner, options.getProjectId(), instanceId, databaseId);
+			spannerPlayground.createDB(spanner, options.getProjectId(), instanceId, databaseId);
+			spannerPlayground.insertData(spanner, options.getProjectId(), instanceId, databaseId);
+			//spannerPlayground.readOnlyFunc(spanner, options.getProjectId(), instanceId, databaseId);
 			//spannerPlayground.readWriteTXN(spanner, options.getProjectId(), instanceId, databaseId);
 		} finally {
 			spanner.close();
