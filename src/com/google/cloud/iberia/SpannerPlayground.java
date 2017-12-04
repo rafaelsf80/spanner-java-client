@@ -39,6 +39,9 @@ public class SpannerPlayground {
 			return;
 		}
 		SpannerOptions options = SpannerOptions.newBuilder().build();
+		// If missing projectId use instead the following:
+		// SpannerOptions options = SpannerOptions.newBuilder().setProjectId("YOUR_PROJECT_ID").build();
+		
 
 		// Authentication with a service account
 		//		String path = "File_Path";
